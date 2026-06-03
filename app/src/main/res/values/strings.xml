@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NSZ Converter</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title_1">Convert NSZ to NSP</string>
+    <string name="onboarding_body_1">This app decompresses .nsz files back to their original .nsp form using the open-source nsz library embedded via Python.</string>
+    <string name="onboarding_disclaimer">This app does NOT bundle or distribute keys, ROMs, or any copyrighted material. It only processes files you already own with keys dumped from your own console.</string>
+    <string name="onboarding_title_2">You need prod.keys</string>
+    <string name="onboarding_body_2">Keys are dumped from your own Switch using tools like Lockpick_RCM. They are used locally only — never transmitted or stored outside your device.</string>
+    <string name="onboarding_title_3">Select your prod.keys</string>
+    <string name="onboarding_body_3">Pick the prod.keys file to validate and store it. You can swap it later from Settings.</string>
+    <string name="onboarding_select_keys">Select prod.keys</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_back">Back</string>
+    <string name="onboarding_finish">Get started</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Queue</string>
+    <string name="nav_history">History</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home -->
+    <string name="home_title">Conversion</string>
+    <string name="home_empty">No files in queue</string>
+    <string name="home_empty_hint">Tap the + button to add .nsz files</string>
+    <string name="home_fab_add">Add NSZ files</string>
+    <string name="home_convert_all">Convert all</string>
+    <string name="home_cancel_all">Cancel all</string>
+    <string name="home_no_keys">prod.keys not configured</string>
+    <string name="home_keys_ok">Keys: %1$d</string>
+
+    <!-- Job status -->
+    <string name="status_queued">Queued</string>
+    <string name="status_running">Converting…</string>
+    <string name="status_success">Done</string>
+    <string name="status_failed">Error</string>
+    <string name="status_cancelled">Cancelled</string>
+
+    <!-- Output picker -->
+    <string name="output_pick_folder">Pick destination folder</string>
+    <string name="output_free_space">Free space: %1$s</string>
+    <string name="output_estimated_size">Estimated size: %1$s</string>
+    <string name="output_low_space_warning">Not enough free space for this conversion</string>
+
+    <!-- History -->
+    <string name="history_title">History</string>
+    <string name="history_filter_all">All</string>
+    <string name="history_filter_success">Successful</string>
+    <string name="history_filter_error">Errors</string>
+    <string name="history_empty">No conversions yet</string>
+    <string name="history_clear">Clear history</string>
+    <string name="history_open_folder">Open folder</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_keys">prod.keys</string>
+    <string name="settings_keys_change">Change prod.keys</string>
+    <string name="settings_keys_status_ok">%1$d keys loaded</string>
+    <string name="settings_keys_status_missing">No prod.keys configured</string>
+    <string name="settings_keys_status_invalid">Invalid or incomplete file</string>
+    <string name="settings_section_output">Output</string>
+    <string name="settings_output_folder">Destination folder</string>
+    <string name="settings_output_folder_none">No folder selected</string>
+    <string name="settings_delete_source">Delete NSZ after successful conversion</string>
+    <string name="settings_verify_integrity">Verify NSP integrity</string>
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_section_advanced">Advanced</string>
+    <string name="settings_keep_screen_on">Keep screen on</string>
+    <string name="settings_notifications">Progress notifications</string>
+    <string name="settings_thread_count">Parallel threads</string>
+    <string name="settings_section_about">About</string>
+    <string name="settings_app_version">Version %1$s</string>
+    <string name="settings_author">Made by ArticunoFruna</string>
+    <string name="settings_github_author">github.com/ArticunoFruna</string>
+    <string name="settings_credits">Powered by nsz (nicoboss) — MIT License</string>
+    <string name="settings_legal_full">This application does not distribute cryptographic keys, ROMs, or copyrighted material. The user is solely responsible for the legality of files they process. Use only with files and keys you legitimately own.</string>
+    <string name="settings_github_nsz">github.com/nicoboss/nsz</string>
+
+    <!-- Job detail -->
+    <string name="detail_log_title">Log</string>
+    <string name="detail_cancel">Cancel conversion</string>
+    <string name="detail_share">Share NSP</string>
+
+    <!-- Errors -->
+    <string name="error_no_keys">You have not configured prod.keys. Go to Settings to select it.</string>
+    <string name="error_keys_incomplete">prod.keys does not contain master_key_00. It may be incomplete or corrupted.</string>
+    <string name="error_keys_outdated">prod.keys may be outdated. Re-dump from your console.</string>
+    <string name="error_no_space_cache">Not enough internal storage (%1$s required)</string>
+    <string name="error_no_space_output">Not enough space in destination folder (%1$s required)</string>
+    <string name="error_file_inaccessible">The .nsz file is no longer accessible. Select it again.</string>
+    <string name="error_file_corrupt">Damaged file or not a valid NSZ</string>
+    <string name="error_file_empty">File is empty</string>
+    <string name="error_python">Internal error in conversion engine</string>
+    <string name="error_show_detail">Show details</string>
+
+    <!-- Notifications -->
+    <string name="notif_channel_name">Conversions</string>
+    <string name="notif_channel_desc">NSZ→NSP conversion progress</string>
+    <string name="notif_title_running">Converting %1$d/%2$d</string>
+    <string name="notif_text">%1$s</string>
+    <string name="notif_action_cancel">Cancel</string>
+
+    <!-- Common -->
+    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_ok">OK</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="action_retry">Retry</string>
+</resources>
