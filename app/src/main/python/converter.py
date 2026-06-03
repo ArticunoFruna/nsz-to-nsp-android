@@ -10,6 +10,7 @@ Estilo de retorno:
   {"valid": bool, ...}          para validaciones
 """
 
+import inspect
 import os
 import re
 import shutil
@@ -17,6 +18,63 @@ import sys
 import time
 import traceback
 from pathlib import Path
+
+
+# Defaults seguros para cualquier param que aparezca en la firma de
+# NszDecompressor.decompress(). nsz cambió la firma varias veces entre versiones
+# (3.x → 4.x → ramas con nuevos params como `pleaseNoPrint`, `overwrite`, etc.),
+# así que introspectamos la función y pasamos solo lo que existe.
+_DECOMPRESS_DEFAULTS = {
+    # nombres conocidos para input/output
+    "filePath": "__INPUT__", "file": "__INPUT__", "file_path": "__INPUT__",
+    "nsz_path": "__INPUT__", "input_path": "__INPUT__",
+    "outputDir": "__OUTPUT__", "output_dir": "__OUTPUT__",
+    "outputPath": "__OUTPUT__", "output": "__OUTPUT__",
+    # flags habituales
+    "fixPadding": False, "fix_padding": False,
+    "statusReportInfo": None, "status_report_info": None,
+    # pleaseNoPrint debe ser None o un ThreadSafeCounter — bool revienta con
+    # AttributeError: 'bool' object has no attribute 'value'
+    "pleaseNoPrint": None, "please_no_print": None, "quiet": None,
+    "overwrite": True,
+    "threads": 1, "thread_count": 1,
+    "verify": False,
+    "removeSource": False, "remove_source": False,
+    "deleteSource": False, "delete_source": False,
+    "BlockSize": 16384,
+}
+
+
+def _call_decompress(fn, nsz_path: str, output_dir: str):
+    """Llama fn con los params correctos según su firma actual.
+
+    nsz internamente usa pathlib.Path (filePath.suffix, etc.) así que aunque
+    nuestra interfaz usa strings, convertimos a Path antes de delegar.
+    """
+    input_p = Path(nsz_path)
+    output_p = Path(output_dir)
+
+    try:
+        sig = inspect.signature(fn)
+    except (TypeError, ValueError):
+        fn(input_p, output_p, False, None)
+        return
+
+    kwargs = {}
+    for name, param in sig.parameters.items():
+        if param.kind in (inspect.Parameter.VAR_POSITIONAL, inspect.Parameter.VAR_KEYWORD):
+            continue
+        if name in _DECOMPRESS_DEFAULTS:
+            v = _DECOMPRESS_DEFAULTS[name]
+            if v == "__INPUT__":
+                kwargs[name] = input_p
+            elif v == "__OUTPUT__":
+                kwargs[name] = output_p
+            else:
+                kwargs[name] = v
+        elif param.default is inspect.Parameter.empty:
+            kwargs[name] = None
+    fn(**kwargs)
 
 
 _REQUIRED_KEYS = ("master_key_00", "aes_kek_generation_source")
@@ -151,12 +209,12 @@ def decompress_nsz(nsz_path: str, output_dir: str) -> dict:
             return result
 
         try:
-            # API moderna: NszDecompressor.decompress(file, outputDir, ...)
-            NszDecompressor.decompress(nsz_path, output_dir)
-        except AttributeError:
-            # Fallback CLI-style
-            from nsz import __main__ as nsz_main
-            nsz_main.main(["-D", "-o", output_dir, nsz_path])
+            try:
+                sig_str = str(inspect.signature(NszDecompressor.decompress))
+                print(f"[nsz] using signature: decompress{sig_str}", file=sys.stderr)
+            except Exception:
+                pass
+            _call_decompress(NszDecompressor.decompress, nsz_path, output_dir)
         except FileNotFoundError:
             result["error"] = "input_not_found"
             return result
