@@ -13,4 +13,6 @@ captures/
 *.jks
 build.log
 prod.keys
+__pycache__/
+*.pyc
 
