@@ -11,6 +11,7 @@ captures/
 *.aab
 *.keystore
 *.jks
+keystore.properties
 build.log
 prod.keys
 __pycache__/
